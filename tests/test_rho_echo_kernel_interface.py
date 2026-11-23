@@ -87,13 +87,16 @@ def test_public_api_is_numerically_identical_to_canonical_solver() -> None:
         np.testing.assert_array_equal(np.asarray(values), direct_observables[name])
 
 
-def test_golden_fixture_is_static_and_replays_inside_declared_envelope() -> None:
+def test_golden_fixture_is_static() -> None:
     packaged = load_golden_fixture()
     regenerated = build_golden_fixture()
     assert regenerated["request"] == packaged["request"]
     assert regenerated["fixture_id"] == packaged["fixture_id"]
     assert regenerated["origin_source_sha256"] == packaged["origin_source_sha256"]
-    report = verify_golden_fixture(packaged)
+
+
+def test_golden_fixture_strict_replay() -> None:
+    report = verify_golden_fixture()
     assert report.passes
     assert report.max_absolute_error == 0.0
     assert report.max_scaled_error == 0.0

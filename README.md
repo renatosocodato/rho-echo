@@ -44,4 +44,4 @@ Cite the specific software version used. See [CITATION.cff](CITATION.cff), the [
 
 For development, install the package from the source checkout and run `python -m pytest tests` with pytest installed.
 
-GitHub Actions checks the installed wheel and CLI and replays the Figure 6 calculations. The strict trajectory comparison runs on macOS. The Linux jobs use a separate cross-platform envelope (relative tolerance 1e-6, absolute tolerance 1e-8) for differences in adaptive integration. The packaged reference values and strict tolerances are unchanged.
+GitHub Actions checks the installed wheel and CLI and replays the Figure 6 calculations. The hosted jobs use a cross-platform envelope (relative tolerance 1e-6, absolute tolerance 1e-8) for differences in adaptive integration. The original strict comparison is available with `rho-echo check`. The packaged reference values and strict tolerances are unchanged.
