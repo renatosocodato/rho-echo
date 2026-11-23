@@ -3,17 +3,11 @@
 from __future__ import annotations
 
 import dataclasses
-import sys
-from pathlib import Path
 
 import numpy as np
 import pytest
 
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "code" / "python"))
-
-from windowed_rhoa.rho_echo_kernel import (  # noqa: E402
+from windowed_rhoa.rho_echo_kernel import (
     KERNEL_API_VERSION,
     MODEL_VERSION,
     InputProgram,
@@ -25,8 +19,8 @@ from windowed_rhoa.rho_echo_kernel import (  # noqa: E402
     simulate,
     verify_golden_fixture,
 )
-from windowed_rhoa.rho_echo_kernel._canonical import load_canonical_module  # noqa: E402
-from windowed_rhoa.rho_echo_kernel.benchmark import build_golden_fixture, load_golden_fixture  # noqa: E402
+from windowed_rhoa.rho_echo_kernel._canonical import load_canonical_module
+from windowed_rhoa.rho_echo_kernel.benchmark import build_golden_fixture, load_golden_fixture
 
 
 def compact_request() -> SimulationRequest:
