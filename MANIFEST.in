@@ -1,0 +1,5 @@
+include CHANGELOG.md CITATION.cff
+include code/pipelines/run_rho_echo_formal_closure.py
+include code/python/windowed_rhoa/step1/dynamic_cofilin.py
+include code/python/windowed_rhoa/step2/matched_jump.py
+include results/exports/calcium_hc3_inference/calcium_hc3_cross_branch_integration.json

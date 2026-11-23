@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "rho-echo-kernel"
 version = "1.0.0"
 description = "Versioned interface to the canonical Rho-Echo microglial controller"
-readme = "code/python/windowed_rhoa/rho_echo_kernel/README.md"
+readme = "README.md"
 requires-python = ">=3.10"
-license = {file = "LICENSE"}
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
   {name = "Renato Socodato"},
 ]
@@ -17,15 +18,24 @@ dependencies = [
   "scipy>=1.10",
 ]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 5 - Production/Stable",
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 
+[project.optional-dependencies]
+replay = ["numba>=0.59"]
+
+[project.scripts]
+rho-echo = "windowed_rhoa.rho_echo_kernel.cli:main"
+
 [project.urls]
 Repository = "https://github.com/renatosocodato/rho-echo"
+
+Documentation = "https://github.com/renatosocodato/rho-echo#readme"
+Changelog = "https://github.com/renatosocodato/rho-echo/blob/main/CHANGELOG.md"
+Issues = "https://github.com/renatosocodato/rho-echo/issues"
 
 [tool.setuptools]
 package-dir = {"" = "code/python"}
