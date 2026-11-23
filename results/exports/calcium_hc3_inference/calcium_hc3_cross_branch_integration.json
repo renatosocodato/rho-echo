@@ -1,0 +1,8 @@
+{
+  "propagation_enabled": true,
+  "shared_layer1_updates": {
+    "a_L": 0.15377642867782496,
+    "a_R": 0.49196262499191723,
+    "k_H": 0.1797757843858774
+  }
+}

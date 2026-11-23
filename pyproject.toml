@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rho-echo-kernel"
+version = "1.0.0"
+description = "Versioned interface to the canonical Rho-Echo microglial controller"
+readme = "code/python/windowed_rhoa/rho_echo_kernel/README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Renato Socodato"},
+]
+dependencies = [
+  "numpy>=1.24",
+  "scipy>=1.10",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[project.urls]
+Repository = "https://github.com/renatosocodato/rho-echo"
+
+[tool.setuptools]
+package-dir = {"" = "code/python"}
+py-modules = ["windowed_rhoa_model"]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["code/python"]
+include = [
+  "windowed_rhoa",
+  "windowed_rhoa.reconciliation",
+  "windowed_rhoa.rho_echo_kernel",
+  "windowed_rhoa.shared",
+]
+
+[tool.setuptools.package-data]
+"windowed_rhoa.rho_echo_kernel" = [
+  "README.md",
+  "origin_manifest.json",
+  "py.typed",
+  "fixtures/*.json",
+]

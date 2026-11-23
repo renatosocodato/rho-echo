@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "kernel_api_version": "1.0.0",
+  "scientific_model_name": "Rho-Echo",
+  "model_equation_version": "windowed-rhoa-v3",
+  "manuscript_identity": "Rho-Echo R6",
+  "source_repository": "https://github.com/renatosocodato/rho-echo",
+  "repository_base_commit_at_freeze": "6daa10a078c2873951c198d5114ffadf1d612f38",
+  "kernel_release_tag": "rho-echo-kernel-v1.0.0",
+  "canonical_implementation": "windowed_rhoa_model.py",
+  "canonical_source_sha256": {
+    "windowed_rhoa_model.py": "80e6bbb0c1c077be7c5676c3237105ef83edbca8224e60ba6bd62a632377575a",
+    "windowed_rhoa/reconciliation/src_dynamics.py": "475066073c488819212855e0215ede9181420a820d3360ee569e452a27ca6a9e",
+    "windowed_rhoa/shared/__init__.py": "0d267f05a106d6c1894c447d417a8049e506fe51e3c38d66a344a01b726a86ee",
+    "windowed_rhoa/shared/constraint_checker.py": "41d8bde9348906c0a22c6817435878e0d6f2d4dcf558e917337f7fcf449c82a5",
+    "windowed_rhoa/shared/math_utils.py": "a23ee96d24fc7f1980bc4f3e3725ca70ce7101ebfa26ef6dc789950abda07fd6",
+    "windowed_rhoa/shared/observables.py": "05a07c2a17cdb2a33f74a02b75f1a102d7af47d2b1ec1e101405053273796a08",
+    "windowed_rhoa/shared/parameters.py": "90d89c9d272a555142e13602a31ef2f18af2d54785d7a8f1ce585b3f106d6f85"
+  },
+  "state_order": ["R", "H", "A", "S", "Y9", "P", "Y10"],
+  "state_semantics": {
+    "R": "normalized effective RhoA activity",
+    "H": "modeled recoverable reserve",
+    "A": "modeled productive-reactivity coordinate",
+    "S": "normalized effective Src-linked drive",
+    "Y9": "Myh9-associated morphology-facing motor output",
+    "P": "protrusive-support output",
+    "Y10": "Myh10-associated inflammation-facing motor output"
+  },
+  "external_inputs": {
+    "inflammatory": "canonical L input with finite pulse and exponential decay tail",
+    "narciclasine": "canonical N rectangular pulse",
+    "amyloid_beta": "canonical A_ext rectangular pulse; affects Src only when src_mode is abeta_modulated"
+  },
+  "solver_contract": {
+    "method": "BDF",
+    "relative_tolerance": 1e-08,
+    "absolute_tolerance": 1e-10,
+    "maximum_step": 0.1
+  },
+  "reference_runtime": {
+    "python": "3.14.3",
+    "numpy": "2.3.5",
+    "scipy": "1.16.3"
+  },
+  "parameter_contract": "The complete flat Params dataclass is serialized explicitly. Environment-dependent calibration loading is outside this interface.",
+  "semantic_boundary": "This interface exposes the existing reduced-order controller without changing its equations, parameter meanings, state ordering, input functions, observables, or solver tolerances. N_tox remains a model-derived inflammatory-burden coordinate rather than measured injury, death, or cytokine output.",
+  "downstream_rule": "Descendant models may infer distributions over compatible kernel states, but must not silently modify this frozen kernel version. Equation changes require a new model-equation version and golden fixture."
+}

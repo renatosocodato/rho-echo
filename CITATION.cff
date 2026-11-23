@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "Please cite the Rho-Echo software when using this work."
+title: "Rho-Echo mechanochemical model"
+version: "1.0.0"
+type: software
+url: "https://github.com/renatosocodato/rho-echo"
+authors:
+  - family-names: "Socodato"
+    given-names: "Renato"
+  - family-names: "Portugal"
+    given-names: "Camila C."
+  - family-names: "Moreira"
+    given-names: "Joana T."
+  - family-names: "Melo"
+    given-names: "Pedro"
+  - family-names: "Beça"
+    given-names: "Pedro"
+  - family-names: "Pinto"
+    given-names: "Inês Mendes"
+  - family-names: "Relvas"
+    given-names: "João B."
+license: "MIT"
+repository-code: "https://github.com/renatosocodato/rho-echo"
+keywords:
+  - RhoA
+  - microglia
+  - Alzheimer disease
+  - cell biology
+  - reproducibility
