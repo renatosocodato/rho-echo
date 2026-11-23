@@ -71,7 +71,7 @@ def _arrays(payload: Mapping[str, Any]):
             yield f"{family}.{name}", np.asarray(values, dtype=float)
 
 
-def verify_golden_fixture(fixture: Mapping[str, Any] | None = None) -> ReplayReport:
+def verify_golden_fixture(fixture: Mapping[str, Any] | None = None, *, portable: bool = False) -> ReplayReport:
     """Replay a fixture through the canonical solver and check its numerical envelope."""
     payload = dict(fixture or load_golden_fixture())
     if payload["kernel_api_version"] != KERNEL_API_VERSION:
@@ -86,6 +86,10 @@ def verify_golden_fixture(fixture: Mapping[str, Any] | None = None) -> ReplayRep
     expected = payload["expected"]
     relative = float(payload["tolerances"]["relative"])
     absolute = float(payload["tolerances"]["absolute"])
+    if portable:
+        # Adaptive solver error accumulates across input discontinuities.
+        # Keep this cross-platform check separate from the original fixture.
+        relative, absolute = 1e-6, 1e-8
     max_absolute = 0.0
     max_scaled = 0.0
     compared = 0
@@ -122,9 +126,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true", help="Replay the packaged fixture")
     parser.add_argument("--stdout", action="store_true", help="Print a newly generated fixture")
     parser.add_argument("--output", type=Path, help="Write a newly generated fixture to this path")
+    parser.add_argument("--portable", action="store_true", help="Use the cross-platform envelope with --check")
     args = parser.parse_args(argv)
+    if args.portable and not args.check:
+        parser.error("--portable requires --check")
     if args.check:
-        report = verify_golden_fixture()
+        report = verify_golden_fixture(portable=args.portable)
         print(json.dumps(report.__dict__, indent=2, sort_keys=True))
         return 0 if report.passes else 1
     if args.stdout:

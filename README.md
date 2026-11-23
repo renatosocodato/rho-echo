@@ -43,3 +43,5 @@ The included calcium calibration records the three fitted values used by this ru
 Cite the specific software version used. See [CITATION.cff](CITATION.cff), the [MIT license](LICENSE) and the [release files and SHA-256 checksums](https://github.com/renatosocodato/rho-echo/releases/tag/v1.0.0).
 
 For development, install the package from the source checkout and run `python -m pytest tests` with pytest installed.
+
+GitHub Actions checks the installed wheel and CLI and replays the Figure 6 calculations. The strict trajectory comparison runs on macOS. The Linux jobs use a separate cross-platform envelope (relative tolerance 1e-6, absolute tolerance 1e-8) for differences in adaptive integration. The packaged reference values and strict tolerances are unchanged.

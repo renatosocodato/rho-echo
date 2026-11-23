@@ -14,14 +14,15 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--version", action="version", version=version("rho-echo-kernel"))
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("check", help="Replay the packaged numerical reference")
+    check = commands.add_parser("check", help="Replay the packaged numerical reference")
+    check.add_argument("--portable", action="store_true", help="Use the cross-platform envelope")
     commands.add_parser("example", help="Print a runnable example request as JSON")
     simulation = commands.add_parser("simulate", help="Simulate a request from a JSON file")
     simulation.add_argument("request", type=Path)
     args = parser.parse_args(argv)
 
     if args.command == "check":
-        return benchmark_main(["--check"])
+        return benchmark_main(["--check", "--portable"] if args.portable else ["--check"])
 
     if args.command == "example":
         from .benchmark import load_golden_fixture

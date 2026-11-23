@@ -6,16 +6,19 @@ permissions:
 
 jobs:
   installed-wheel:
-    name: Installed wheel (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    name: Installed wheel (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.10', '3.12']
+        include:
+          - {os: ubuntu-latest, python-version: '3.10', portable: true}
+          - {os: ubuntu-latest, python-version: '3.12', portable: true}
+          - {os: macos-15, python-version: '3.12', portable: false}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Build and install the wheel
@@ -24,12 +27,20 @@ jobs:
           python -m build --wheel
           python -m pip install dist/*.whl
           python -m pip check
+      - name: Install the reference solver versions
+        if: ${{ !matrix.portable }}
+        run: python -m pip install numpy==2.5.5 scipy==1.18.1
       - name: Test the installed API and CLI outside the checkout
         working-directory: ${{ runner.temp }}
         run: |
-          python -m pytest --import-mode=importlib "$GITHUB_WORKSPACE/tests"
           rho-echo --version
-          rho-echo check
+          if [ "${{ matrix.portable }}" = true ]; then
+            python -m pytest --import-mode=importlib "$GITHUB_WORKSPACE/tests" -k 'not golden_fixture_is_static'
+            rho-echo check --portable
+          else
+            python -m pytest --import-mode=importlib "$GITHUB_WORKSPACE/tests"
+            rho-echo check
+          fi
           rho-echo example > request.json
           rho-echo simulate request.json > trajectory.json
           python - <<'PY'
@@ -47,8 +58,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - run: python -m pip install '.[replay]'
